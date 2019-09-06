@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Student from '../Student/index';
+import { Droppable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
   margin: 8px;
@@ -18,11 +19,16 @@ const Column = ({ students, column }) => {
   return (
     <Container>
       <Title>{column.title}</Title>
-      <StudentsList>
-        {students.map(student => (
-          <Student key={student.id} student={student} />
-        ))}
-      </StudentsList>
+      <Droppable droppableId={column.id}>
+        {provided => (
+          <StudentsList ref={provided.innerRef} {...provided.droppableProps}>
+            {students.map((student, index) => (
+              <Student key={student.id} index={index} student={student} />
+            ))}
+            {provided.placeholder}
+          </StudentsList>
+        )}
+      </Droppable>
     </Container>
   );
 };

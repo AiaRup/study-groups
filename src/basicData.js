@@ -18,4 +18,4 @@ export const columns = [
   }
 ];
 
-export const columnOrder = ['column-1', 'column-2'];
+export const columnOrder = ['column-1'];
