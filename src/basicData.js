@@ -14,8 +14,13 @@ export const columns = [
   {
     id: 'column-2',
     title: 'Group 1',
-    studentsIds: ['1', '2']
+    studentsIds: []
+  },
+  {
+    id: 'column-3',
+    title: 'Group 2',
+    studentsIds: []
   }
 ];
 
-export const columnOrder = ['column-1'];
+export const columnOrder = ['column-1', 'column-2', 'column-3'];
