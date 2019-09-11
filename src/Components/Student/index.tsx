@@ -1,16 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { FC } from 'react';
+import { Container } from './styles';
 import { Draggable } from 'react-beautiful-dnd';
+import { IStudent } from '../../utils/index';
 
-const Container = styled.div`
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 8px;
-  background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
-`;
+interface StudentProps {
+  student: IStudent;
+  index: number;
+}
 
-const Student = ({ student, index }) => {
+const Student: FC<StudentProps> = ({ student, index }) => {
   return (
     <Draggable draggableId={student.id} index={index}>
       {(provided, snapshot) => (

@@ -1,29 +1,25 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { FC } from 'react';
+import { Container, Title, StudentsList } from './styles';
 import Student from '../Student/index';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { IColumn, IStudent } from '../../utils/index';
 
-const Container = styled.div`
-  margin: 8px;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-`;
-const Title = styled.h3`
-  padding: 8px;
-`;
-const StudentsList = styled.div`
-  padding: 8px;
-  transition: background-color 0.2s ease;
-  background-color: ${props => (props.isDraggingOver ? 'skyblue' : 'inherit')};
-  flex-grow: 1;
-  min-height: 100px;
-`;
+interface ColumnProps {
+  students: IStudent[];
+  column: IColumn;
+  index: number;
+}
 
-const Column = ({ students, column, index }) => {
+const shouldUpdate = (prevProps: object, nextProps: object) =>
+  prevProps.students === nextProps.students;
+
+const InnerList = React.memo((props: object) => {
+  return props.students.map((student: IStudent, index: number) => (
+    <Student key={student.id} index={index} student={student} />
+  ));
+}, shouldUpdate);
+
+const Column: FC<ColumnProps> = ({ students, column, index }) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {provided => (
@@ -36,9 +32,7 @@ const Column = ({ students, column, index }) => {
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                {students.map((student, index) => (
-                  <Student key={student.id} index={index} student={student} />
-                ))}
+                <InnerList students={students} />
                 {provided.placeholder}
               </StudentsList>
             )}
