@@ -12,8 +12,8 @@ interface Iprops {
 }
 
 const InnerList = ({ column, studentsState, index }: Iprops) => {
-  const students = column.studentsIds.map(studentId =>
-    studentsState.find(student => student.id === studentId)
+  const students = column.studentsIds.map(
+    studentId => studentsState.find(student => student.id === studentId)!
   );
   return <Column column={column} students={students} index={index} />;
 };
@@ -41,12 +41,12 @@ const App = () => {
       return;
     }
 
-    const columnStart = columnsList.find(
+    const columnStart: IColumn = columnsList.find(
       column => column.id === source.droppableId
-    );
-    const columnEnd = columnsList.find(
+    )!;
+    const columnEnd: IColumn = columnsList.find(
       column => column.id === destination.droppableId
-    );
+    )!;
 
     if (columnStart === columnEnd) {
       const newStudentsIds = Array.from(columnStart!.studentsIds);
@@ -102,9 +102,9 @@ const App = () => {
               return (
                 <InnerList
                   key={column!.id}
-                  column={column}
+                  column={column!}
                   index={index}
-                  students={studentsList}
+                  studentsState={studentsList}
                 />
               );
             })}
