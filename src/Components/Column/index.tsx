@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 import { Container, Title, StudentsList } from './styles';
 import Student from '../Student/index';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
@@ -9,14 +9,21 @@ interface ColumnProps {
   column: IColumn;
   index: number;
 }
+interface StudentProps {
+  students: IStudent[];
+}
 
-const shouldUpdate = (prevProps: object, nextProps: object) =>
+const shouldUpdate = (prevProps: StudentProps, nextProps: StudentProps) =>
   prevProps.students === nextProps.students;
 
-const InnerList = React.memo((props: object) => {
-  return props.students.map((student: IStudent, index: number) => (
-    <Student key={student.id} index={index} student={student} />
-  ));
+const InnerList = React.memo(({ students }: StudentProps) => {
+  return (
+    <Fragment>
+      {students.map((student: IStudent, index: number) => (
+        <Student key={student.id} index={index} student={student} />
+      ))}
+    </Fragment>
+  );
 }, shouldUpdate);
 
 const Column: FC<ColumnProps> = ({ students, column, index }) => {
